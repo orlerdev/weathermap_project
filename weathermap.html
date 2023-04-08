@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/weather_map.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
+    <title>Weather Map</title>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="page-container">
+        <div class="overlay hide">
+        </div>
+        <div class="page-row">
+            <main class="sections-container">
+                <button class="five-day-btn">5 Day Forecast</button>
+                <button class="map-show-btn">Show Map</button>
+                <div class="forecast-container">
+                    <div id="forecast-card" class="forecast-card">
+                        <div id="card-body" class="card-body">
+                            <div class="card-header">
+                                <h2 class="card-date"></h2>
+                            </div>
+                            <div class="card-info">
+                                <ul class="card-left">
+                                    <li>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">HIGH</h3>
+                                            <h3 id="high-temp-data" class="card-info-data">${Math.round(max)}ºF</h3>
+                                        </div>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">CLOUDS</h3>
+                                            <h3 id="clouds--data" class="card-info-data">${clouds}%</h3>
+                                        </div>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">HUMIDITY</h3>
+                                            <h3 id="humidity-data" class="card-info-data">${humidity}%</h3>
+                                        </div>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">SUNRISE</h3>
+                                            <h3 id="sunrise-data" class="card-info-data">${setCardTimes(sunrise)}</h3>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="card-right">
+                                    <li>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">LOW</h3>
+                                            <h3 id="low-temp-data" class="card-info-data">${Math.round(min)}ºF</h3>
+                                        </div>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">UV-INDEX</h3>
+                                            <h3 id="uvi-data" class="card-info-data">${uvi}</h3>
+                                        </div>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">CHANCE OF PRECIPITATION</h3>
+                                            <h3 id="pop-data" class="card-info-data">${pop}</h3>
+                                        </div>
+                                        <div class="info-wrap">
+                                            <h3 class="card-info-title">SUNSET</h3>
+                                            <h3 id="sunset-data" class="card-info-data">${setCardTimes(sunset)}</h3>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-description">
+                            <p id="card-description-data" class="description">${description}</p>
+                        </div>
+                    </div>
+                    <div class="forecast-indicator">
+                        <div id="tab1" class="indicator-tab active">3/28</div>
+                        <div id="tab2" class="indicator-tab">3/29</div>
+                        <div id="tab3" class="indicator-tab">3/30</div>
+                        <div id="tab4" class="indicator-tab">3/31</div>
+                        <div id="tab5" class="indicator-tab">4/1</div>
+                    </div>
+                </div>
+                <section class="landing-section">
+                    <div class="wrap">
+                        <div class="loading-text">
+                            <div class="wrap">
+                                <div class="current-date"></div>
+                                <div class="current-time"></div>
+                            </div>
+                            <div class="current-temp"></div>
+                            <div class="search">
+                                <form>
+                                    <!--suppress HtmlFormInputWithoutLabel -->
+                                    <input id="hidden-search" type="text" placeholder="Search by address...">
+                                    <button class="search-btn" type="button"><img src="assets/icons/map-location-thin.svg" alt="">
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="current-pop"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="map-container">
+                    <button class="home-btn" type="button"><img src="assets/icons/house-chimney-heart.svg" alt=""></button>
+                    <div id="map" style="width: 100%; height: 100%;"></div>
+                    <script src="./js/mapbox-geocoder.utils.js"></script>
+                    <script>
+                        mapboxgl.accessToken = "pk.eyJ1Ijoib3JsZXJkZXYiLCJhIjoiY2xmanZ2M290MDR3OTQxbno0bGN2bzU0MiJ9.1hvE1zeLlwdzOsuyufRE9A";
+                        const markerCoords = document.querySelector("#coordinates");
+                        const map = new mapboxgl.Map({
+                            container: "map", // container ID
+                            style: "mapbox://styles/mapbox/satellite-streets-v12", // style URL
+                            center: [-98.48962, 29.42692], // starting position [lng, lat]
+                            zoom: 9 // starting zoom
+                        });
+
+                        const marker = new mapboxgl.Marker({
+                            draggable: true
+                        })
+                            .setLngLat(map.getCenter())
+                            .addTo(map);
+
+                        function onDragEnd() {
+                            const lnglat = marker.getLngLat();
+                            map.setCenter(lnglat);
+                            console.log(lnglat);
+                        }
+
+                        marker.on("dragend", onDragEnd);
+
+                        const homeBtn = document.querySelector(".home-btn");
+
+                        homeBtn.addEventListener("click", () => {
+                            console.log("fired");
+                            map.setCenter([-98.48962, 29.42692]);
+                            const marker = new mapboxgl.Marker({
+                                draggable: true
+                            })
+                                .setLngLat(map.getCenter())
+                                .addTo(map);
+                        });
+
+                    </script>
+                </section>
+            </main>
+        </div>
+    </div>
+</div>
+<script type="module" src="js/weathermap.js"></script>
+</body>
+</html>

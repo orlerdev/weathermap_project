@@ -1,0 +1,427 @@
+:root {
+    --std-transition: all ease-in-out .7s;
+    --std-light-bg: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+/* GLOBAL PROPERTIES */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+/* OVERLAY */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+    pointer-events: none;
+    /* display: none; */
+}
+
+.page-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.hide {
+    display: none;
+}
+
+section {
+    height: 100%;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* SECTIONS CONTAINER */
+.sections-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* SHOW BUTTONS */
+button.five-day-btn, button.map-show-btn {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+    z-index: 99;
+    background: transparent;
+    backdrop-filter: blur(30px);
+    border: none;
+    border-radius: 15px 15px 0 0;
+    box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px, rgba(0, 0, 0, 0.3) 0 7px 13px -3px, rgba(0, 0, 0, 0.2) 0 -3px 0 inset;
+}
+
+/* FORECAST SHOW BUTTON */
+button.five-day-btn {
+    left: -325px;
+    top: 400px;
+    width: 65vh;
+    height: 200px;
+    color: floralwhite;
+    transform: rotate(90deg);
+    font-size: 48px;
+    transition: left ease 0.4s;
+}
+
+button.five-day-btn:hover {
+    left: -275px;
+}
+
+/* MAP SHOW BUTTON */
+button.map-show-btn {
+    right: -325px;
+    top: 400px;
+    width: 65vh;
+    height: 200px;
+    color: floralwhite;
+    transform: rotate(-90deg);
+    font-size: 48px;
+    transition: right ease 0.4s;
+}
+
+button.map-show-btn:hover {
+    right: -275px;
+}
+
+/* FORECAST CONTAINER */
+.forecast-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 80vw;
+    height: 80vh;
+    top: 10%;
+    left: -100%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    background: grey;
+    z-index: 2;
+    overflow: hidden;
+    transition: left ease 0.4s;
+}
+
+.forecast-container.active {
+    left: 10%;
+}
+
+/* FORECAST CARDS */
+.forecast-card {
+    display: flex;
+    position: absolute;
+    /* backdrop-filter: blur(3px); */
+    opacity: 1;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all ease .4s;
+    /* z-index: 1; */
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    height: 100px;
+    width: 100%;
+    padding: 10px 20px;
+    color: floralwhite;
+    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.5);
+    font-size: 36px;
+}
+
+.card-head img {
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    color: floralwhite;
+    padding: 40px;
+}
+
+.card-body .wrap {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
+    column-gap: 40px;
+}
+
+.card-left, .card-right {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.card-left li, .card-right li {
+    border-bottom: 1px solid black;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+}
+
+.card-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    color: floralwhite;
+    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+}
+
+/* FORECAST INDICATORS */
+.forecast-indicator {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.1);
+    height: 70px;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+
+.indicator-tab {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: floralwhite;
+    font-size: 2em;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px, rgba(0, 0, 0, 0.3) 0 7px 13px -3px, rgba(0, 0, 0, 0.2) 0 -3px 0 inset;
+    transition: all ease 0.4s;
+}
+
+.indicator-tab:hover {
+    background: rgba(255, 255, 255, .5);
+    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, .5);
+    cursor: pointer;
+}
+
+.indicator-tab.active {
+    flex: 4;
+}
+
+/* LANDING SECTION */
+.landing-section {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.8);
+    color: floralwhite
+}
+
+.loading-text .wrap {
+    column-gap: 55px;
+}
+
+.loading-text .current-date, .current-time {
+    color: floralwhite;
+    font-size: .5em;
+}
+
+.loading-text .current-temp {
+    color: floralwhite;
+    font-size: 1.2em;
+}
+
+/* SEARCH */
+.search {
+    position: relative;
+    height: 70px;
+    margin-bottom: 40px;
+}
+
+#hidden-search {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    color: transparent;
+    backdrop-filter: blur(20px);
+    border: 0;
+    font-size: 18px;
+    padding: 15px;
+    height: 70px;
+    width: 70px;
+    border-radius: 15px;
+    transition: width 0.3s ease;
+}
+
+.search-btn {
+    background: rgba(255, 255, 255, .7);
+    box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 0;
+    cursor: pointer;
+    position: absolute;
+    font-size: xx-large;
+    color: black;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 70px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.search-btn:focus,
+#hidden-search:focus {
+    outline: none;
+}
+
+.search-btn:hover {
+    scale: 1.1;
+    box-shadow: 0 0 50px floralwhite;
+}
+
+.search.active #hidden-search {
+    color: floralwhite;
+    width: 500px;
+    border-radius: 15px 0 0 15px;
+}
+
+.search.active .search-btn {
+    transform: translateX(498px);
+    border-radius: 0 15px 15px 0;
+    scale: unset;
+}
+
+.loading-text .current-pop {
+    font-size: .3em;
+}
+
+/* MAP CONTAINER */
+.map-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    height: 80vh;
+    top: -70%;
+    right: -100%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    z-index: 1;
+    overflow: hidden;
+    transition: right ease 0.4s;
+}
+
+.home-btn {
+    background: rgba(255, 255, 255, .7);
+    box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    font-size: xx-large;
+    color: black;
+    top: 5px;
+    right: 5px;
+    height: 70px;
+    width: 70px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.home-btn:hover {
+    scale: 1.1;
+    box-shadow: 0 0 50px floralwhite;
+}
+
+.map-container.active {
+    right: -10%
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
