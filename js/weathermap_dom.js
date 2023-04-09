@@ -21,19 +21,21 @@ export const tab3 = document.querySelector("#tab3");
 export const tab4 = document.querySelector("#tab4");
 export const tab5 = document.querySelector("#tab5");
 //<--LANDING PAGE-->
-export const searchBtn = document.querySelector("#search-btn");
+export const landingSearch = document.querySelector("#landing-search");
 export const userSearch = document.querySelector("#user-search");
 export const landingLocation = document.querySelector("#landing-location");
 export const currentDate = document.querySelector("#current-date");
 export const currentTime = document.querySelector("#current-time");
 export const currentTemp = document.querySelector("#current-temp");
-export const currentPop = document.querySelector("#current-pop");
 export const mapContainer = document.querySelector(".map-container");
 //<--MAP SECTION-->
+export const map = document.querySelector("#map");
 
 //<--BUTTONS-->
 export const fiveDayBtn = document.querySelector("#five-day-btn");
+export const searchBtn = document.querySelector("#search-btn");
 export const showMapBtn = document.querySelector("#show-map-btn");
 export const mapHomeBtn = document.querySelector("#map-home-btn");
+
 
 
