@@ -8,30 +8,13 @@ export const searchBtnEvent = () => {
         console.log(dom.userSearch.value.length);
         if (dom.userSearch.value.length === 0) {
             console.log("event fired");
-            dom.landingSearch.classList.toggle("active");
+            // dom.landingSearch.classList.toggle("active");
             dom.userSearch.focus();
         }
+        dom.landingSearch.classList.toggle("active");
     });
 };
-//
 
-// export const userSearchEvent = () => {
-//     dom.userSearch.addEventListener("input", e => {
-//         let address = dom.userSearch.value;
-//         console.log(address);
-//         func.geocode(address, keys.mapbox).then(coordinates => {
-//             const newMarker = new Marker({
-//                 "draggable": "true"
-//             })
-//                 .setLngLat(coordinates)
-//                 .addTo(map);
-//             map.setCenter(coordinates);
-//         });
-//         dom.mapContainer.classList.add("active");
-//     });
-// };
-
-//
 document.addEventListener("click", e => {
     const isClickInside = dom.userSearch.contains(e.target);
     if (!isClickInside) {

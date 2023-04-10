@@ -131,13 +131,22 @@
                             center: [-98.48962, 29.42692], // starting position [lng, lat]
                             zoom: 9 // starting zoom
                         });
-
+                        const landingSearch = document.querySelector("#landing-search");
                         const userSearch = document.querySelector("#user-search");
-
+                        const searchBtn = document.querySelector("#search-btn");
                         const mapCont = document.querySelector(".map-container");
-                        userSearch.addEventListener("input", e => {
+
+                        function debounce(func, delay) {
+                            let timer;
+                            return function (...args) {
+                                const context = this;
+                                clearTimeout(timer);
+                                timer = setTimeout(() => func.apply(context, args), delay);
+                            };
+                        }
+
+                        userSearch.addEventListener("submit", debounce(function() {
                             let address = userSearch.value;
-                            console.log(address);
                             geocode(address, mapbox).then(coordinates => {
                                 const newMarker = new mapboxgl.Marker({
                                     "draggable": "true"
@@ -147,7 +156,10 @@
                                 map.setCenter(coordinates);
                             });
                             mapCont.classList.add("active");
-                        });
+                            userSearch.innerText = "";
+                            console.log("userSearch reset");
+                            landingSearch.classList.toggle("active");
+                        }, 1500));
 
                         const marker = new mapboxgl.Marker({
                             draggable: true
