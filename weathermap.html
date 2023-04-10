@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/mapboxKey.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/reset.css">
@@ -20,7 +21,7 @@
             <main id="sections-container" class="sections-container">
                 <button id="five-day-btn" class="five-day-btn">5 Day Forecast</button>
                 <button id="show-map-btn" class="map-show-btn">Show Map</button>
-                <section id="forecast-container" class="forecast-container active">
+                <section id="forecast-container" class="forecast-container">
                     <div id="forecast-card" class="forecast-card">
                         <div id="card-body" class="card-body">
 
@@ -118,16 +119,61 @@
                     </div>
                 </section>
                 <section class="map-container">
-                    <button id="map-home-btn" class="home-btn" type="button"><i class="fa-kit fa-light-house-blank-circle-arrow-left"></i></button>
+                    <button id="map-home-btn" class="home-btn" type="button"><img src="./assets/icons/house-chimney-heart.svg" alt=""></button>
                     <div id="map" style="width: 100%; height: 100%;"></div>
+                    <script src="./js/mapbox-geocoder.utils.js"></script>
                     <script>
                         mapboxgl.accessToken = "pk.eyJ1Ijoib3JsZXJkZXYiLCJhIjoiY2xmanZ2M290MDR3OTQxbno0bGN2bzU0MiJ9.1hvE1zeLlwdzOsuyufRE9A";
+                        const markerCoords = document.querySelector("#coordinates");
                         const map = new mapboxgl.Map({
                             container: "map", // container ID
-                            style: "mapbox://styles/mapbox/streets-v12", // style URL
+                            style: "mapbox://styles/mapbox/satellite-streets-v12", // style URL
                             center: [-98.48962, 29.42692], // starting position [lng, lat]
                             zoom: 9 // starting zoom
                         });
+
+                        const userSearch = document.querySelector("#user-search");
+
+                        const mapCont = document.querySelector(".map-container");
+                        userSearch.addEventListener("input", e => {
+                            let address = userSearch.value;
+                            console.log(address);
+                            geocode(address, mapbox).then(coordinates => {
+                                const newMarker = new mapboxgl.Marker({
+                                    "draggable": "true"
+                                })
+                                    .setLngLat(coordinates)
+                                    .addTo(map);
+                                map.setCenter(coordinates);
+                            });
+                            mapCont.classList.add("active");
+                        });
+
+                        const marker = new mapboxgl.Marker({
+                            draggable: true
+                        })
+                            .setLngLat(map.getCenter())
+                            .addTo(map);
+
+                        function onDragEnd() {
+                            const lnglat = marker.getLngLat();
+                            map.setCenter(lnglat);
+                            console.log(lnglat);
+                        }
+
+                        marker.on("dragend", onDragEnd);
+
+                        const homeBtn = document.querySelector("#map-home-btn");
+
+                        homeBtn.addEventListener("click", () => {
+                            map.setCenter([-98.48962, 29.42692]);
+                            const marker = new mapboxgl.Marker({
+                                draggable: true
+                            })
+                                .setLngLat(map.getCenter())
+                                .addTo(map);
+                        });
+
                     </script>
                 </section>
             </main>

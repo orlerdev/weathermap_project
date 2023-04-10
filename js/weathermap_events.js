@@ -1,7 +1,6 @@
 import * as dom from "./weathermap_dom.js";
 import * as func from "./weathermap_funcs.js";
 import { keys } from "./keys.js";
-// import Marker from "mapbox-gl/src/ui/marker.js";
 
 export const searchBtnEvent = () => {
     dom.searchBtn.addEventListener("click", (e) => {
@@ -16,21 +15,21 @@ export const searchBtnEvent = () => {
 };
 //
 
-export const userSearchEvent = () => {
-    dom.userSearch.addEventListener("submit", e => {
-        let address = dom.userSearch.value;
-        console.log(address);
-        func.geocode(address, keys.mapbox).then(coordinates => {
-            const newMarker = new Marker({
-                "draggable": "true"
-            })
-                .setLngLat(coordinates)
-                .addTo(map);
-            map.setCenter(coordinates);
-        });
-        dom.mapContainer.classList.add("active");
-    });
-};
+// export const userSearchEvent = () => {
+//     dom.userSearch.addEventListener("input", e => {
+//         let address = dom.userSearch.value;
+//         console.log(address);
+//         func.geocode(address, keys.mapbox).then(coordinates => {
+//             const newMarker = new Marker({
+//                 "draggable": "true"
+//             })
+//                 .setLngLat(coordinates)
+//                 .addTo(map);
+//             map.setCenter(coordinates);
+//         });
+//         dom.mapContainer.classList.add("active");
+//     });
+// };
 
 //
 document.addEventListener("click", e => {
@@ -56,19 +55,4 @@ export const showMapBtnEvent = () => {
         }
     });
 };
-//
-export const markerEvent = () => {
-    func.marker.addEventListener("dragend", func.onDragEnd);
-};
-//
-export const mapHomeBtnEvent = () => {
-    dom.mapHomeBtn.addEventListener("click", () => {
-        console.log("fired");
-        map.setCenter([-98.48962, 29.42692]);
-        const marker = new mapboxgl.Marker({
-            draggable: true
-        })
-            .setLngLat(map.getCenter())
-            .addTo(map);
-    });
-};
+

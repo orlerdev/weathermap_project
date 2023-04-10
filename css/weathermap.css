@@ -79,7 +79,7 @@ button.five-day-btn, button.map-show-btn {
     backdrop-filter: blur(30px);
     border: none;
     border-radius: 15px 15px 0 0;
-    text-shadow:  0 2px 4px black;
+    text-shadow: 0 2px 4px black;
     box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px, rgba(0, 0, 0, 0.3) 0 7px 13px -3px, rgba(0, 0, 0, 0.2) 0 -3px 0 inset;
 }
 
@@ -151,6 +151,7 @@ button.map-show-btn:hover {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 10px;
     transition: all ease .4s;
     /* z-index: 1; */
 }
@@ -211,7 +212,7 @@ button.map-show-btn:hover {
     width: 100%;
     padding: 10px 20px;
     color: floralwhite;
-    text-shadow:  0 2px 4px black;
+    text-shadow: 0 2px 4px black;
     font-size: 36px;
 }
 
@@ -233,7 +234,7 @@ button.map-show-btn:hover {
     height: 100%;
     width: 100%;
     padding: 3px;
-    text-shadow:  0 2px 4px black;
+    text-shadow: 0 2px 4px black;
 }
 
 .details {
@@ -242,7 +243,7 @@ button.map-show-btn:hover {
     height: 100%;
     width: 100%;
     padding: 15px;
-    text-shadow:  0 2px 4px black;
+    text-shadow: 0 2px 4px black;
 }
 
 .card-description {
@@ -255,7 +256,7 @@ button.map-show-btn:hover {
     text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.5);
     height: 100%;
     width: 100%;
-    text-shadow:  0 2px 4px black;
+    text-shadow: 0 2px 4px black;
 }
 
 /* FORECAST INDICATORS */
@@ -268,6 +269,7 @@ button.map-show-btn:hover {
     height: 70px;
     width: 100%;
     transition: all 0.5s ease;
+
 }
 
 .forecast-tab {
@@ -282,11 +284,12 @@ button.map-show-btn:hover {
     background: rgba(0, 0, 0, 0.5);
     box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px, rgba(0, 0, 0, 0.3) 0 7px 13px -3px, rgba(0, 0, 0, 0.2) 0 -3px 0 inset;
     transition: all ease 0.4s;
+    text-shadow: 0 1px 3px #eee;
 }
 
 .forecast-tab:hover {
     background: rgba(255, 255, 255, .5);
-    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 4px black;
     color: rgba(0, 0, 0, .5);
     cursor: pointer;
 }
@@ -310,6 +313,7 @@ button.map-show-btn:hover {
 
 .wrap {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -420,7 +424,7 @@ button.map-show-btn:hover {
 }
 
 .home-btn {
-    background: rgba(255, 255, 255, .7);
+    background: rgba(0, 0, 0, .7);
     box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     border: 0;

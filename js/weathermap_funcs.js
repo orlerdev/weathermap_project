@@ -1,13 +1,15 @@
 import { keys } from "./keys.js";
 import * as dom from "./weathermap_dom.js";
 import * as func from "./weathermap_funcs.js";
+import * as rand from "./weathermap_variables.js";
 
-export const fetchWeather = async () => {
+
+
+
+export const fetchWeather = async (longitude = -98.48527, latitude = 29.423017) => {
     try {
-        const SAlong = -98.48527;
-        const SAlat = 29.423017;
         const imperial = "imperial";
-        const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${SAlat}&lon=${SAlong}&units=${imperial}&appid=${keys.openWeather}`;
+        const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=${imperial}&appid=${keys.openWeather}`;
         const res = await fetch(url);
         const data = await res.json();
         return data;
@@ -21,11 +23,81 @@ export const getCurrentTemp = async (data) => {
 
 };
 
-export const updateCardInfo = (day, forecasts) => {
+const currentCardTime = () => {
+    let time = new Date();
+    return time.getHours();
+};
+
+const hour = currentCardTime();
+
+export const renderRandomPhoto = (randomPhotoCat, sunrise, sunset, hour) => {
+    switch (randomPhotoCat) {
+        case "clear":
+            if (hour >= sunrise || hour <= sunrise + 1) {
+                randomPhotoCat = "sunrise";
+            } else if (hour <= sunset || hour >= sunset - 1) {
+                randomPhotoCat = "sunset";
+            } else if (hour > 18 && hour < 23 || hour >= 0 && hour < 5) {
+                randomPhotoCat = "night";
+            } else randomPhotoCat = "clear";
+            break;
+        case "clouds":
+            randomPhotoCat = "clouds";
+            break;
+        case "snow":
+            randomPhotoCat = "snow";
+            break;
+        case "thunderstorm":
+        case "torndado":
+            randomPhotoCat = "storm";
+            break;
+        case "mist":
+        case "smoke":
+        case "haze":
+        case "dust":
+        case "fog":
+        case "sand":
+        case "ash":
+            randomPhotoCat = "atmosphere";
+            break;
+        case "drizzle":
+        case "rain":
+            randomPhotoCat = "rain";
+            break;
+    }
+
+    let photoNumber;
+    if (randomPhotoCat === "clear") {
+        photoNumber = rand.randomNumClear;
+    } else if (randomPhotoCat === "sunrise") {
+        photoNumber = rand.randomNumSunrise;
+    } else if (randomPhotoCat === "sunset") {
+        photoNumber = rand.randomNumSunset;
+    } else if (randomPhotoCat === "clouds") {
+        photoNumber = rand.randomNumClouds;
+    } else if (randomPhotoCat === "atmosphere") {
+        photoNumber = rand.randomNumAtmosphere;
+    } else if (randomPhotoCat === "night") {
+        photoNumber = rand.randomNumNight;
+    } else if (randomPhotoCat === "storm") {
+        photoNumber = rand.randomNumStorm;
+    } else if (randomPhotoCat === "rain") {
+        photoNumber = rand.randomNumRain;
+    } else {
+        photoNumber = rand.randomNumStorm;
+    }
+
+    return `url("../assets/img/${randomPhotoCat.toLowerCase()}/${photoNumber}.png")`;
+};
+
+export const updateCardInfo = (day, forecasts, hour) => {
     const { dt, temp, clouds, pop, sunrise, humidity, uvi, sunset, weather } = day;
     const { max } = temp;
     const { min } = temp;
     const { description } = weather[0];
+    const { main } = weather[0];
+    const randomPhotoCat = main;
+
     dom.cardDate.innerText = setCardDate(dt);
     dom.highTempData.innerText = `${Math.round(max)}ºF`;
     dom.cloudsData.innerText = `${clouds}%`;
@@ -36,13 +108,17 @@ export const updateCardInfo = (day, forecasts) => {
     dom.popData.innerText = `${pop}%`;
     dom.sunsetData.innerText = `${setCardTimes(sunset)}`;
     dom.cardDescriptionData.innerText = `${description}`;
+    dom.cardBody.style.backgroundImage = `${renderRandomPhoto(randomPhotoCat, sunrise, sunset, hour)}`;
 
     let forecastArray = [...document.querySelectorAll(".forecast-tab")];
     forecastArray.forEach((tab, index) => {
         let day = forecasts[index];
-        let { dt } = day;
+        let { dt, sunrise, sunset } = day;
+
         tab.innerText = func.setCardDate(`${dt}`);
         tab.addEventListener("click", (e) => {
+            removeActiveClass(forecastArray);
+            tab.classList.add("active");
             updateCardInfo(day);
         });
     });
@@ -82,12 +158,13 @@ export const setLandingDate = (unix) => {
 
 export const updateLanding = (data) => {
     const { current } = data;
-    const { temp } = current;
+    const { temp, weather, sunrise, sunset } = current;
+    const { main } = weather[0];
     dom.landingLocation.innerText = `San Antonio, TX`;
     dom.currentDate.innerText = `${days[day]} ${months[month]}, ${date}`;
     dom.currentTime.innerText = `${hoursForClock}:${minutes < 10 ? `0${minutes}` : minutes} ${ampm}`;
     dom.currentTemp.innerText = `${Math.floor(temp)}ºF`;
-    dom.pageContainer.style.backgroundImage = `url("../assets/img/sunny/5.png")`;
+    dom.pageContainer.style.backgroundImage = `${renderRandomPhoto(main, sunrise, sunset, hour)}`;
 };
 
 //<--FORECAST CARDS-->
@@ -108,8 +185,8 @@ export const setCardTimes = (dt) => {
     return `${hoursForClock}:${minutes < 10 ? `0${minutes}` : minutes} ${ampm}`;
 };
 
-const removeActiveClass = () => {
-    dom.forecastTabs.forEach(tab => {
+const removeActiveClass = (forecastArray) => {
+    forecastArray.forEach(tab => {
         tab.classList.remove("active");
     });
 };
@@ -122,7 +199,7 @@ const removeActiveClass = () => {
 //     });
 // });
 
-dom.cardBody.style.backgroundImage = `url('../assets/img/rain/${2}.png`;
+
 
 
 

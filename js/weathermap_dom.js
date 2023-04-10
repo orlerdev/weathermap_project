@@ -29,7 +29,7 @@ export const currentTime = document.querySelector("#current-time");
 export const currentTemp = document.querySelector("#current-temp");
 export const mapContainer = document.querySelector(".map-container");
 //<--MAP SECTION-->
-export const map = document.querySelector("#map");
+// export const map = document.querySelector(map);
 
 //<--BUTTONS-->
 export const fiveDayBtn = document.querySelector("#five-day-btn");
