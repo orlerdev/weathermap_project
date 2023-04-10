@@ -1,17 +1,3 @@
-// function reformatDate(date) {
-//     let today = new Date();
-//     let year = today.getFullyYear();
-//     let dateParts = date.split(" ");
-//     let month = dateParts[1].split("/")[0];
-//     let day = dateParts[1].split("/")[1];
-//     let newDateString = `${month}/${day}/${year}`;
-//     if (month === 12 && today.getMonth() === 0) {
-//         year -= 1;
-//         newDateString = `${month}/${day}/${year}`;
-//     }
-//     return newDateString;
-// }
-
 function formatCurrency(num, lang = "en", country = "US", style = "currency", currency = "USD") {
     return parseFloat(num).toLocaleString(`${lang}-${country}`, { style: style, currency: currency });
 }

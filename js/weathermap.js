@@ -4,7 +4,6 @@ import * as func from "./weathermap_funcs.js";
 (async () => {
     let data = await func.fetchWeather();
     func.updateLanding(data);
-
     const generateFiveDay = (data) => {
         const { daily } = data;
         daily.splice(5);

@@ -145,7 +145,7 @@
                             };
                         }
 
-                        userSearch.addEventListener("submit", debounce(function() {
+                        userSearch.addEventListener("input", debounce(function() {
                             let address = userSearch.value;
                             geocode(address, mapbox).then(coordinates => {
                                 const newMarker = new mapboxgl.Marker({

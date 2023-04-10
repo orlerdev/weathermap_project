@@ -1,6 +1,4 @@
 import * as dom from "./weathermap_dom.js";
-import * as func from "./weathermap_funcs.js";
-import { keys } from "./keys.js";
 
 export const searchBtnEvent = () => {
     dom.searchBtn.addEventListener("click", (e) => {

@@ -3,9 +3,6 @@ import * as dom from "./weathermap_dom.js";
 import * as func from "./weathermap_funcs.js";
 import * as rand from "./weathermap_variables.js";
 
-
-
-
 export const fetchWeather = async (longitude = -98.48527, latitude = 29.423017) => {
     try {
         const imperial = "imperial";
@@ -51,7 +48,6 @@ export const renderRandomPhoto = (randomPhotoCat, sunrise, sunset, hour) => {
         case "torndado":
             randomPhotoCat = "storm";
             break;
-        case "mist":
         case "smoke":
         case "haze":
         case "dust":
@@ -60,6 +56,7 @@ export const renderRandomPhoto = (randomPhotoCat, sunrise, sunset, hour) => {
         case "ash":
             randomPhotoCat = "atmosphere";
             break;
+        case "mist":
         case "drizzle":
         case "rain":
             randomPhotoCat = "rain";
@@ -157,8 +154,9 @@ export const setLandingDate = (unix) => {
 };
 
 export const updateLanding = (data) => {
-    const { current } = data;
-    const { temp, weather, sunrise, sunset } = current;
+    const { current, daily } = data;
+    const { temp, sunrise, sunset } = current;
+    const {weather} = daily[0];
     const { main } = weather[0];
     dom.landingLocation.innerText = `San Antonio, TX`;
     dom.currentDate.innerText = `${days[day]} ${months[month]}, ${date}`;
@@ -190,15 +188,6 @@ const removeActiveClass = (forecastArray) => {
         tab.classList.remove("active");
     });
 };
-
-// dom.forecastTabs.forEach(tab => {
-//     tab.addEventListener("click", () => {
-//         removeActiveClass();
-//         dom.cardDate.innerText = tab.innerText;
-//         tab.classList.add("active");
-//     });
-// });
-
 
 
 
